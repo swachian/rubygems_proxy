@@ -95,7 +95,7 @@ class RubygemsProxy
         end
       end
     end
-    rhtml = ERB.new(File.read(File.expand_path("../list.erb", __FILE__)), nil, "%")
+    rhtml = ERB.new(File.read(File.expand_path("../index.erb", __FILE__)), nil, "%")
     rhtml.result(binding)
   end
 
