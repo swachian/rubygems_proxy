@@ -79,26 +79,6 @@ class RubygemsProxy
     "#{root_dir}/public"
   end
 
-  def listing
-    last_gem = ""
-    gem_versions = []
-    @gem_list = []
-    Dir.glob(File.expand_path("../cache/gems/*.gem", __FILE__)).sort.each do |file| 
-      file = File.basename(file)
-      if file =~ /^(.*?)\-(\d+.*?)\.gem$/
-        if last_gem != $1
-          @gem_list << { :name => last_gem, :versions => gem_versions } unless last_gem == ""
-          gem_versions = [$2]
-          last_gem = $1
-        else
-          gem_versions << $2
-        end
-      end
-    end
-    rhtml = ERB.new(File.read(File.expand_path("../index.erb", __FILE__)), nil, "%")
-    rhtml.result(binding)
-  end
-
   def contents
     if File.directory?(filepath)
       erb(404)
