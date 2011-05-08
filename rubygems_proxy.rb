@@ -79,6 +79,26 @@ class RubygemsProxy
     "#{root_dir}/public"
   end
 
+  def listing
+    last_gem = ""
+    gem_versions = []
+    @gem_list = []
+    Dir.glob(File.expand_path("../cache/gems/*.gem", __FILE__)).sort.each do |file| 
+      file = File.basename(file)
+      if file =~ /^(.*?)\-(\d+.*?)\.gem$/
+        if last_gem != $1
+          @gem_list << { :name => last_gem, :versions => gem_versions } unless last_gem == ""
+          gem_versions = [$2]
+          last_gem = $1
+        else
+          gem_versions << $2
+        end
+      end
+    end
+    rhtml = ERB.new(File.read(File.expand_path("../list.erb", __FILE__)), nil, "%")
+    rhtml.result(binding)
+  end
+
   def contents
     if File.directory?(filepath)
       erb(404)
@@ -89,12 +109,6 @@ class RubygemsProxy
       logger.info "Read from interwebz: #{url}"
       open(url).read.tap {|content| save(content)}
     end
-  rescue Exception => error
-    # Just try to load from file if something goes wrong.
-    # This includes HTTP timeout, or something.
-    # If it fails again, we won't have any files anyway!
-    logger.error "Error: #{error.class} => #{error.message}"
-    open(filepath).read
   end
 
   def save(contents)
@@ -122,3 +136,4 @@ class RubygemsProxy
     File.join("http://rubygems.org", env["PATH_INFO"])
   end
 end
+
