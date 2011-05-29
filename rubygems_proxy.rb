@@ -87,7 +87,8 @@ class RubygemsProxy
       open(filepath).read
     else
       logger.info "Read from interwebz: #{url}"
-      open(url).read.tap {|content| save(content)}
+      # pass the Host header to correctly access the rubygems site
+      open(url, "Host" => "rubygems.org").read.tap {|content| save(content)}
     end
   end
 
@@ -113,7 +114,8 @@ class RubygemsProxy
   end
 
   def url
-    File.join("http://rubygems.org", env["PATH_INFO"])
+    # connect directly to the IP address
+    File.join("http://72.4.120.124", env["PATH_INFO"])
   end
 end
 
