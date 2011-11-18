@@ -4,5 +4,5 @@
 log/**
 tmp/**
 cache/**
-public/**
-*.gz
+#public/**
+#*.gz
