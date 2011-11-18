@@ -42,7 +42,7 @@ class RubygemsProxy
   end
 
   def gem_url(name, version)
-    File.join(server_url, "gems", Rack::Utils.escape("#{name}-#{version}.gem"))
+    File.join("gems", Rack::Utils.escape("#{name}-#{version}.gem"))
   end
 
   def gem_list
@@ -82,7 +82,7 @@ class RubygemsProxy
   def contents
     if File.directory?(filepath)
       erb(404)
-    elsif cached? && (!specs? || !too_old?)
+    elsif cached? && (!specs? || too_old? )
       logger.info "Read from cache: #{filepath}"
       open(filepath).read
     else
