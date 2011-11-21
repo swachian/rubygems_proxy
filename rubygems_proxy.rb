@@ -82,7 +82,7 @@ class RubygemsProxy
   def contents
     if File.directory?(filepath)
       erb(404)
-    elsif cached? && (!specs? || too_old? )
+    elsif cached? && (!specs? || !too_old? )
       logger.info "Read from cache: #{filepath}"
       open(filepath).read
     else
