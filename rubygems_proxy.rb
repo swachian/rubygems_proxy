@@ -44,6 +44,19 @@ class RubygemsProxy
   def gem_url(name, version)
     File.join("gems", Rack::Utils.escape("#{name}-#{version}.gem"))
   end
+  
+  def tar_list
+    Dir[File.dirname(__FILE__) + "/public/tars/**"].sort
+  end
+
+  def tar_name(tar)
+    File.basename(tar)
+  end
+  
+  def tar_url(tar)
+    File.join("tars", tar_name(tar))
+  end  
+
 
   def gem_list
     Dir[File.dirname(__FILE__) + "/public/gems/**/*.gem"]

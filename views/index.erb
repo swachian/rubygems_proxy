@@ -38,7 +38,15 @@ gem: --no-rdoc --no-ri</code></pre>
                 Want to implement your own mirror? Get the
                 one-file Rack app at <a href="http://github.com/fnando/rubygems_proxy">Github</a>.
             </p>
-
+            <h2>Available tars</h2>
+            <ul class="gems">
+                <% tars = tar_list;%>
+                <% tars.each do |tar| %>
+                    <li>
+                        <a href="<%= tar_url(tar) %>"><%= tar_name(tar) %></a>
+                    </li>
+                <% end %>
+            </ul>
             <h2>Available gems</h2>
             <p>
                 <strong><%= gem_list.size %></strong> gems cached so far!
